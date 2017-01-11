@@ -15,7 +15,7 @@ go get github.com/ecix/fswatch
 
 ```bash
 # watch all files in a directory `mydir` and print their names on change
-watch -dir mydir -cmd echo
+fswatch -dir mydir -cmd echo
 ```
 
 ## Contributors
