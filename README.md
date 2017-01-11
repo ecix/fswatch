@@ -8,7 +8,7 @@ the file name as the argument.
 ## Installation
 
 ```
-go get https://github.com/ecix/fswatch
+go get github.com/ecix/fswatch
 ```
 
 ## Usage
@@ -17,6 +17,11 @@ go get https://github.com/ecix/fswatch
 # watch all files in a directory `mydir` and print their names on change
 watch -dir mydir -cmd echo
 ```
+
+## Contributors
+
+Written by [Veit Heller](https://github.com/hellerve) of Port Zero on
+behalf of [ecix](https://github.com/ecix).
 
 <hr/>
 
