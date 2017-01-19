@@ -2,6 +2,7 @@ package main
 
 import (
     "flag"
+    "fmt"
     "log"
     "os"
     "os/exec"
@@ -13,12 +14,12 @@ import (
 func main() {
     var dir, cmdstr string
     flag.StringVar(&dir,    "dir", "", "the directory to watch")
-    flag.StringVar(&cmdstr, "cmd", "", "the command to run on change events")
+    flag.StringVar(&cmdstr, "cmd", "", "the command to run on change events (simply pipe to stdout if none given)")
     flag.Parse()
 
-    if dir == "" || cmdstr == "" {
+    if dir == "" {
       flag.Usage()
-      log.Fatal("need both dir and cmd flags")
+      log.Fatal("need dir argument")
     }
 
     watcher := make(chan notify.EventInfo, 1)
@@ -35,14 +36,17 @@ func main() {
     for {
         select {
             case ev := <-watcher:
-                cmd := exec.Command(cmdstr, ev.Path())
-                cmd.Stdout = os.Stdout
-                cmd.Stderr = os.Stderr
-                err := cmd.Run()
+                if cmdstr == "" {
+                  fmt.Printf("%s\n", ev.Path())
+                } else {
+                  cmd := exec.Command(cmdstr, ev.Path())
+                  cmd.Stdout = os.Stdout
+                  cmd.Stderr = os.Stderr
+                  err := cmd.Run()
 
-
-                if err != nil {
-                  log.Println("Error executing command:", err)
+                  if err != nil {
+                    log.Println("Error executing command:", err)
+                  }
                 }
         }
     }

@@ -16,7 +16,12 @@ go get github.com/ecix/fswatch
 ```bash
 # watch all files in a directory `mydir` and print their names on change
 fswatch -dir mydir -cmd echo
+# alternatively omit the command and use a pipe
+fswatch -dir mydir | cat
 ```
+
+Please not when you use the piping option a newline
+will be appended to the name of the file.
 
 ## Contributors
 
